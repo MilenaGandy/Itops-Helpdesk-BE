@@ -16,31 +16,37 @@ class UserSerializer(serializers.ModelSerializer):
 # --- Serializers para los modelos de "Catálogo" ---
 
 class RolSerializer(serializers.ModelSerializer):
+    """Serializer para el rol del usuario."""
     class Meta:
         model = Rol
         fields = '__all__'
 
 class CategoriaSerializer(serializers.ModelSerializer):
+    """Serializer para la categoría del ticket."""
     class Meta:
         model = Categoria
         fields = '__all__'
 
 class PrioridadSerializer(serializers.ModelSerializer):
+    """Serializer para la prioridad del ticket."""
     class Meta:
         model = Prioridad
         fields = '__all__'
 
 class EstadoTicketSerializer(serializers.ModelSerializer):
+    """Serializer para el estado del ticket."""
     class Meta:
         model = EstadoTicket
         fields = '__all__'
 
 class MedioContactoSerializer(serializers.ModelSerializer):
+    """Serializer para el medio de contacto."""
     class Meta:
         model = MedioContacto
         fields = '__all__'
 
 class TipoGestionSerializer(serializers.ModelSerializer):
+    """Serializer para el tipo de gestión."""
     class Meta:
         model = TipoGestion
         fields = '__all__'
@@ -54,21 +60,25 @@ class SLASerializer(serializers.ModelSerializer):
 # --- Serializers para los modelos principales ---
 
 class ClienteSerializer(serializers.ModelSerializer):
+    """Serializer para el cliente."""
     class Meta:
         model = Cliente
         fields = '__all__'
 
 class ContactoClienteSerializer(serializers.ModelSerializer):
+    """Serializer para el contacto del cliente."""
     class Meta:
         model = ContactoCliente
         fields = '__all__'
 
 class GestionTicketSerializer(serializers.ModelSerializer):
+    """Serializer para la gestión del ticket."""
     class Meta:
         model = GestionTicket
         fields = '__all__'
 
 class SatisfaccionClienteSerializer(serializers.ModelSerializer):
+    """Serializer para la satisfacción del cliente."""
     class Meta:
         model = SatisfaccionCliente
         fields = '__all__'

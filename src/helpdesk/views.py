@@ -14,50 +14,62 @@ from .serializers import (
 # --- Vistas para los modelos de "Catálogo" y Principales ---
 
 class UserViewSet(viewsets.ModelViewSet):
+    """Vista para el modelo de usuario."""
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
 class RolViewSet(viewsets.ModelViewSet):
+    """Vista para el modelo de rol."""
     queryset = Rol.objects.all()
     serializer_class = RolSerializer
 
 class CategoriaViewSet(viewsets.ModelViewSet):
+    """Vista para el modelo de categoría."""
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
 
 class PrioridadViewSet(viewsets.ModelViewSet):
+    """Vista para el modelo de prioridad."""
     queryset = Prioridad.objects.all()
     serializer_class = PrioridadSerializer
 
 class EstadoTicketViewSet(viewsets.ModelViewSet):
+    """Vista para el modelo de estado del ticket."""
     queryset = EstadoTicket.objects.all()
     serializer_class = EstadoTicketSerializer
 
 class MedioContactoViewSet(viewsets.ModelViewSet):
+    """Vista para el modelo de medio de contacto."""
     queryset = MedioContacto.objects.all()
     serializer_class = MedioContactoSerializer
 
 class TipoGestionViewSet(viewsets.ModelViewSet):
+    """Vista para el modelo de tipo de gestión."""
     queryset = TipoGestion.objects.all()
     serializer_class = TipoGestionSerializer
 
 class SLAViewSet(viewsets.ModelViewSet):
+    """Vista para el modelo de SLA."""
     queryset = SLA.objects.all()
     serializer_class = SLASerializer
 
 class ClienteViewSet(viewsets.ModelViewSet):
+    """Vista para el modelo de cliente."""
     queryset = Cliente.objects.all()
     serializer_class = ClienteSerializer
 
 class ContactoClienteViewSet(viewsets.ModelViewSet):
+    """Vista para el modelo de contacto del cliente."""
     queryset = ContactoCliente.objects.all()
     serializer_class = ContactoClienteSerializer
 
 class GestionTicketViewSet(viewsets.ModelViewSet):
+    """Vista para el modelo de gestión del ticket."""
     queryset = GestionTicket.objects.all()
     serializer_class = GestionTicketSerializer
 
 class SatisfaccionClienteViewSet(viewsets.ModelViewSet):
+    """Vista para el modelo de satisfacción del cliente."""
     queryset = SatisfaccionCliente.objects.all()
     serializer_class = SatisfaccionClienteSerializer
 
@@ -65,6 +77,7 @@ class SatisfaccionClienteViewSet(viewsets.ModelViewSet):
 # --- Vista avanzada para Tickets ---
 
 class TicketViewSet(viewsets.ModelViewSet):
+    """Vista para el modelo de ticket con serializers diferenciados para lectura y escritura."""
     queryset = Ticket.objects.all().order_by('-fecha_hora_creacion')
 
     def get_serializer_class(self):

@@ -28,10 +28,6 @@ Este proyecto es un backend para un sistema de HelpDesk desarrollado con Django 
    python src/manage.py runserver
    ```
 
-## Pruebas
-
-Las pruebas se encuentran en `src/helpdesk/tests.py`.
-
 ## Notas
 
 - El proyecto está estructurado para facilitar la escalabilidad y el mantenimiento.

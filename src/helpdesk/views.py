@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from django.contrib.auth.models import User
+from rest_framework import generics, permissions, viewsets
 from .models import (
     Rol, Categoria, Prioridad, EstadoTicket, MedioContacto, TipoGestion, SLA,
     Cliente, ContactoCliente, Ticket, GestionTicket, SatisfaccionCliente
@@ -8,7 +9,8 @@ from .serializers import (
     UserSerializer, RolSerializer, CategoriaSerializer, PrioridadSerializer,
     EstadoTicketSerializer, MedioContactoSerializer, TipoGestionSerializer, SLASerializer,
     ClienteSerializer, ContactoClienteSerializer, TicketCreateUpdateSerializer,
-    TicketListDetailSerializer, GestionTicketSerializer, SatisfaccionClienteSerializer
+    TicketListDetailSerializer, GestionTicketSerializer, SatisfaccionClienteSerializer,
+    RegisterSerializer
 )
 
 # --- Vistas para los modelos de "Catálogo" y Principales ---
@@ -89,3 +91,15 @@ class TicketViewSet(viewsets.ModelViewSet):
         if self.action in ['list', 'retrieve']:
             return TicketListDetailSerializer
         return TicketCreateUpdateSerializer
+
+
+# --- Vista para el Registro de Usuarios ---
+class RegisterView(generics.CreateAPIView):
+    """
+    Vista para crear un nuevo usuario.
+    Solo permite peticiones POST.
+    """
+    queryset = User.objects.all()
+    # Permite que cualquier usuario (incluso no autenticado) pueda acceder a esta vista
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = RegisterSerializer

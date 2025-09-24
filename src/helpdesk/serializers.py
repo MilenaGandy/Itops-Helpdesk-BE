@@ -120,3 +120,40 @@ class TicketListDetailSerializer(serializers.ModelSerializer):
             'contacto_solicitante', 'medio_contacto', 'prioridad',
             'categoria', 'estado', 'agente_asignado'
         ]
+
+
+# --- Serializer para el Registro de Usuarios ---
+class RegisterSerializer(serializers.ModelSerializer):
+    """
+    Serializer para el registro de nuevos usuarios.
+    Incluye validación para asegurar que las dos contraseñas coincidan.
+    """
+    # Campo para la confirmación de la contraseña (no se guarda en la BD)
+    password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+
+    class Meta:
+        model = User # Utiliza el modelo de Usuario por defecto de Django
+        fields = ['username', 'email', 'password', 'password2']
+        extra_kwargs = {
+            'password': {'write_only': True} # La contraseña no debe ser retornada en la respuesta
+        }
+
+    def validate(self, data):
+        """
+        Verifica que las dos contraseñas ingresadas sean iguales.
+        """
+        if data['password'] != data['password2']:
+            raise serializers.ValidationError("Las contraseñas no coinciden.")
+        return data
+
+    def create(self, validated_data):
+        """
+        Crea y guarda un nuevo usuario en la base de datos,
+        asegurándose de hashear la contraseña correctamente.
+        """
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password']
+        )
+        return user

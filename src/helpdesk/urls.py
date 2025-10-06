@@ -8,7 +8,7 @@ from .views import (
     UserViewSet, RolViewSet, CategoriaViewSet, PrioridadViewSet,
     EstadoTicketViewSet, MedioContactoViewSet, TipoGestionViewSet, SLAViewSet,
     ClienteViewSet, ContactoClienteViewSet, TicketViewSet,
-    GestionTicketViewSet, SatisfaccionClienteViewSet, RegisterView
+    GestionTicketViewSet, SatisfaccionClienteViewSet, RegisterView, CustomTokenObtainPairView
 )
 
 # Se crea una instancia del Router
@@ -42,7 +42,7 @@ urlpatterns = [
 
     # 2. Endpoint para el Inicio de Sesión (Login)
     # Recibe 'username' y 'password', devuelve 'access' y 'refresh' tokens.
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
 
     # 3. Endpoint para refrescar el token de acceso
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

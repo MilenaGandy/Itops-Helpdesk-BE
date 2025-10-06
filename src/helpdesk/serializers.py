@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import (
     Rol, Categoria, Prioridad, EstadoTicket, MedioContacto, TipoGestion, SLA,
     Cliente, ContactoCliente, Ticket, GestionTicket, SatisfaccionCliente
@@ -121,6 +123,23 @@ class TicketListDetailSerializer(serializers.ModelSerializer):
             'categoria', 'estado', 'agente_asignado'
         ]
 
+# --- Serializer Personalizado para el Inicio de Sesión (Login) ---
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    """
+    Serializer personalizado para el token, que permite modificar la respuesta
+    y los mensajes de error.
+    """
+    def validate(self, attrs):
+        try:
+            # Llama al método de validación original para autenticar al usuario
+            data = super().validate(attrs)
+            # Si la autenticación es exitosa, añade el mensaje personalizado
+            data['message'] = "Inicio de sesión exitoso"
+            return data
+        except AuthenticationFailed as e:
+            # Si la autenticación falla, lanza una nueva excepción con el mensaje personalizado
+            raise AuthenticationFailed("Usuario y Contraseña incorrecto")
+        
 
 # --- Serializer para el Registro de Usuarios ---
 class RegisterSerializer(serializers.ModelSerializer):

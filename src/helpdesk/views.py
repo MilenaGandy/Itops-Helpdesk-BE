@@ -10,8 +10,9 @@ from .serializers import (
     EstadoTicketSerializer, MedioContactoSerializer, TipoGestionSerializer, SLASerializer,
     ClienteSerializer, ContactoClienteSerializer, TicketCreateUpdateSerializer,
     TicketListDetailSerializer, GestionTicketSerializer, SatisfaccionClienteSerializer,
-    RegisterSerializer
+    RegisterSerializer, CustomTokenObtainPairSerializer
 )
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 # --- Vistas para los modelos de "Catálogo" y Principales ---
 
@@ -91,6 +92,13 @@ class TicketViewSet(viewsets.ModelViewSet):
         if self.action in ['list', 'retrieve']:
             return TicketListDetailSerializer
         return TicketCreateUpdateSerializer
+    
+# --- Vista Personalizada para el Inicio de Sesión (Login) ---
+class CustomTokenObtainPairView(TokenObtainPairView):
+    """
+    Vista personalizada para el inicio de sesión que utiliza el serializer customizado.
+    """
+    serializer_class = CustomTokenObtainPairSerializer    
 
 
 # --- Vista para el Registro de Usuarios ---

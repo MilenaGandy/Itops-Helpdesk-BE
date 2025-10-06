@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from django.contrib.auth.models import User
+from rest_framework import generics, permissions, viewsets
 from .models import (
     Rol, Categoria, Prioridad, EstadoTicket, MedioContacto, TipoGestion, SLA,
     Cliente, ContactoCliente, Ticket, GestionTicket, SatisfaccionCliente
@@ -8,8 +9,10 @@ from .serializers import (
     UserSerializer, RolSerializer, CategoriaSerializer, PrioridadSerializer,
     EstadoTicketSerializer, MedioContactoSerializer, TipoGestionSerializer, SLASerializer,
     ClienteSerializer, ContactoClienteSerializer, TicketCreateUpdateSerializer,
-    TicketListDetailSerializer, GestionTicketSerializer, SatisfaccionClienteSerializer
+    TicketListDetailSerializer, GestionTicketSerializer, SatisfaccionClienteSerializer,
+    RegisterSerializer, CustomTokenObtainPairSerializer
 )
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 # --- Vistas para los modelos de "Catálogo" y Principales ---
 
@@ -89,3 +92,22 @@ class TicketViewSet(viewsets.ModelViewSet):
         if self.action in ['list', 'retrieve']:
             return TicketListDetailSerializer
         return TicketCreateUpdateSerializer
+    
+# --- Vista Personalizada para el Inicio de Sesión (Login) ---
+class CustomTokenObtainPairView(TokenObtainPairView):
+    """
+    Vista personalizada para el inicio de sesión que utiliza el serializer customizado.
+    """
+    serializer_class = CustomTokenObtainPairSerializer    
+
+
+# --- Vista para el Registro de Usuarios ---
+class RegisterView(generics.CreateAPIView):
+    """
+    Vista para crear un nuevo usuario.
+    Solo permite peticiones POST.
+    """
+    queryset = User.objects.all()
+    # Permite que cualquier usuario (incluso no autenticado) pueda acceder a esta vista
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = RegisterSerializer

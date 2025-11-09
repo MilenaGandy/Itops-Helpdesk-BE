@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -105,16 +106,30 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': getenv('DB_ENGINE'),
-        'NAME': getenv('DB_NAME'),
-        'USER': getenv('DB_USER'),
-        'PASSWORD': getenv('DB_PASSWORD'),
-        'HOST': getenv('DB_HOST'),
-        'PORT': getenv('DB_PORT'),
+# Configuración de Base de Datos
+if 'DATABASE_URL' in os.environ:
+    # Estamos en producción (Render)
+    DATABASES = {
+        'default': dj_database_url.config(
+            conn_max_age=600,
+            ssl_require=True  # Requerido por Render
+        )
     }
-}
+else:
+    # Estamos en desarrollo (local)
+    # ¡¡ASEGÚRATE DE QUE ESTO COINCIDA CON TU CONFIGURACIÓN LOCAL!!
+    DATABASES = {
+        'default': {
+            'ENGINE': getenv('DB_ENGINE'),
+            'NAME': getenv('DB_NAME'),
+            'USER': getenv('DB_USER'),
+            'PASSWORD': getenv('DB_PASSWORD'),
+            'HOST': getenv('DB_HOST'),
+            'PORT': getenv('DB_PORT'),
+        }
+    }
+
+    
 
 
 # Password validation
